@@ -11,7 +11,7 @@ FILE_EXTENSIONS = {
     "AUDIO": [".aac", ".dvf", ".m4a", ".m4b", ".m4p", ".mp3", ".msv", ".ogg", ".oga", ".raw", ".vox", ".wav", ".wma", ".flac", ".alac"],
     "PLAINTEXT": [".txt", ".cfg", ".conf", ".ini"],
     "EXECUTABLES": [".exe", ".bat", ".cmd", ".jar", ".msc", ".app"],
-    "DATA": [".csv", ".json", ".log", ".dat", ".db", ".dump"],
+    "DATA": [".csv", ".json", ".dat", ".db", ".dump"],
     "SCRIPTS": [".vue", ".php", ".rb", ".pl", ".cgi", ".py", ".sh", ".bash", ".xml"],
     "PRESENTATIONS": [".ppt", ".pptx", ".odp", ".key"],
     "SPREADSHEETS": [".xlsm", ".numbers", ".ods", ".xlr"],
@@ -35,17 +35,6 @@ FILE_EXTENSIONS = {
 }
 
 
-def make_folders():
-    for folder in FILE_EXTENSIONS.keys():
-        try:
-            mkdir(folder)
-        except:
-            print(f"{folder} already exists")
-            pass
-
-    mkdir("OTHER")
-
-
 def get_extension_and_move_files():
     for file in listdir():
         if isfile(file):
@@ -54,16 +43,10 @@ def get_extension_and_move_files():
             for folder, extensions in FILE_EXTENSIONS.items():
                 if file_extension in extensions:
                     try:
-                        move(f"{file}", f"./{folder}")
+                        mkdir(f"./{folder}")
+                        move(f"./{file}", f"./{folder}")
                     except:
-                        print(f"Error moving {file}")
-                        pass
-                else:
-                    try:
-                        move(f"{file}", f"./OTHER")
-                    except:
-                        print(f"Error moving {file}")
-                        pass
+                        move(f"./{file}", f"./{folder}")
 
 
 def delete_empty_folders():
@@ -76,7 +59,6 @@ def delete_empty_folders():
 
 
 def main():
-    make_folders()
     get_extension_and_move_files()
     delete_empty_folders()
 
